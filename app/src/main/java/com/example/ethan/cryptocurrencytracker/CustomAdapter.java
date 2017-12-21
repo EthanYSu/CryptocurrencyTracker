@@ -1,12 +1,15 @@
 package com.example.ethan.cryptocurrencytracker;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -17,7 +20,7 @@ import java.util.ArrayList;
 
 public class CustomAdapter extends ArrayAdapter<Coin> {
     private ArrayList<Coin> listCoins;
-    Context contextm;
+    private Context contextm;
 
     public CustomAdapter(ArrayList<Coin> coins, Context context){
         super(context, 0, coins);
@@ -34,13 +37,22 @@ public class CustomAdapter extends ArrayAdapter<Coin> {
         Coin currentCoin = listCoins.get(position);
 
         TextView nameText = (TextView) listItem.findViewById(R.id.coin);
+        TextView symbolText = (TextView) listItem.findViewById(R.id.coinInitial);
         TextView priceText = (TextView) listItem.findViewById(R.id.price);
         TextView changeText = (TextView) listItem.findViewById(R.id.change);
 
         nameText.setText(currentCoin.getCoinName());
-        priceText.setText(currentCoin.getCoinPrice());
-        changeText.setText(currentCoin.getCoinChange());
-
+        symbolText.setText("(" + currentCoin.getSymbolName() + ")");
+        priceText.setText("$" + currentCoin.getCoinPrice());
+        double checkPlusMinus = Double.parseDouble(currentCoin.getCoinChange());
+        if(checkPlusMinus >= 0.00){
+            changeText.setText("+" + currentCoin.getCoinChange());
+            changeText.setTextColor(Color.GREEN);
+        }
+        else{
+            changeText.setText(currentCoin.getCoinChange());
+            changeText.setTextColor(Color.RED);
+        }
         return listItem;
 
     }

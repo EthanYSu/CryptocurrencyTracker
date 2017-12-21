@@ -11,17 +11,21 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="40dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginLeft="60dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="30dp"
         android:text="TextView" />
 
     <TextView
         android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/coin"
-        android:layout_centerHorizontal="true"
+        android:layout_alignBaseline="@+id/coin"
+        android:layout_alignBottom="@+id/coin"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_toLeftOf="@+id/change"
+        android:layout_toStartOf="@+id/change"
         android:text="TextView" />
 
     <TextView
@@ -32,8 +36,17 @@
         android:layout_alignBottom="@+id/price"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_marginEnd="28dp"
-        android:layout_marginRight="28dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/coinInitial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/coin"
+        android:layout_toEndOf="@+id/coin"
+        android:layout_toRightOf="@+id/coin"
         android:text="TextView" />
 
 
