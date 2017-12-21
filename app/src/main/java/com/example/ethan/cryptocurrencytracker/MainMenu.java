@@ -11,6 +11,8 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -22,6 +24,7 @@ public class MainMenu extends AppCompatActivity {
     private OkHttpClient okHttpClient = new OkHttpClient();
     public static final String coinAPI = "https://api.coinmarketcap.com/v1/ticker/";
     private TextView txt;
+    private ArrayList<String> coinNames = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,7 @@ public class MainMenu extends AppCompatActivity {
 
         txt = (TextView) findViewById(R.id.txt);
         load();
+
     }
 
     private void load() {
@@ -60,15 +64,22 @@ public class MainMenu extends AppCompatActivity {
         try{
             JSONObject jsonObject;
             JSONArray jsonArray = new JSONArray(jsonData);
+
             StringBuilder stringBuilder = new StringBuilder();
+            ArrayList<String> temp = new ArrayList<>();
 
             for(int i = 0; i < jsonArray.length(); i++){
                 jsonObject = jsonArray.getJSONObject(i);
                 String name = jsonObject.getString("name");
-                stringBuilder.append(name).append("\n");
+                //stringBuilder.append(name).append("\n");
+                coinNames.add(name);
+                temp.add(name);
+            }
+            //txt.setText(stringBuilder.toString());
+            for(int i = 0; i < temp.size(); i++ ){
+                stringBuilder.append(coinNames.get(i)).append("\n");
             }
             txt.setText(stringBuilder.toString());
-
         }
         catch (Exception e){
 
