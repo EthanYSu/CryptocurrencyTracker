@@ -25,6 +25,7 @@ public class MainMenu extends AppCompatActivity {
     public static final String coinAPI = "https://api.coinmarketcap.com/v1/ticker/";
     private TextView txt;
     private ArrayList<String> coinNames = new ArrayList<>();
+    public ArrayList<Coin> coinList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,23 +67,51 @@ public class MainMenu extends AppCompatActivity {
             JSONArray jsonArray = new JSONArray(jsonData);
 
             StringBuilder stringBuilder = new StringBuilder();
-            ArrayList<String> temp = new ArrayList<>();
 
             for(int i = 0; i < jsonArray.length(); i++){
                 jsonObject = jsonArray.getJSONObject(i);
                 String name = jsonObject.getString("name");
-                //stringBuilder.append(name).append("\n");
+                String price = jsonObject.getString("price_usd");
+                String change = jsonObject.getString("percent_change_24h");
+                coinList.add(new Coin(name, price, change));
                 coinNames.add(name);
-                temp.add(name);
             }
-            //txt.setText(stringBuilder.toString());
-            for(int i = 0; i < temp.size(); i++ ){
-                stringBuilder.append(coinNames.get(i)).append("\n");
+            String temp = "";
+            for(int i = 0; i < coinList.size(); i++ ){
+                temp = coinList.get(i).getCoinName();
+                stringBuilder.append(temp).append("\n");
             }
             txt.setText(stringBuilder.toString());
         }
         catch (Exception e){
 
         }
+    }
+}
+
+
+class Coin {
+    private String coinName;
+    private String coinPrice;
+    private String coinChange;
+
+    public Coin(String coinName, String coinPrice, String coinChange){
+        this.coinName = coinName;
+        this.coinPrice = coinPrice;
+        this.coinChange = coinChange;
+    }
+
+    public String getCoinName(){return this.coinName;}
+    public String getCoinPrice(){return this.coinPrice;}
+    public String getCoinChange(){return this.coinChange;}
+
+    public void setCoinName(String coinName){
+        this.coinName = coinName;
+    }
+    public void setCoinPrice(String coinPrice){
+        this.coinPrice = coinPrice;
+    }
+    public void setCoinChange(String coinChange){
+        this.coinChange = coinChange;
     }
 }
