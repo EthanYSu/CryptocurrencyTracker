@@ -13,4 +13,11 @@
         android:layout_height="wrap_content"
         android:text="Hello World!"/>
 
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/list">
+
+    </ListView>
+
 </LinearLayout>
