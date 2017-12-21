@@ -82,7 +82,9 @@ public class MainMenu extends AppCompatActivity {
                 coinList.add(new Coin(name, price, change));
                 coinNames.add(name);
             }
-            final int sizeOfArrayList = coinList.size();
+            coinListView = (ListView)findViewById(R.id.list);
+            CustomAdapter cAdapter = new CustomAdapter(coinList, this);
+            coinListView.setAdapter(cAdapter);
         }
         catch (Exception e){
 
