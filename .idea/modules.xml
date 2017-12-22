@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CryptocurrencyTracker.iml" filepath="$PROJECT_DIR$/CryptocurrencyTracker.iml" />
-      <module fileurl="file://C:\Users\ethan\Desktop\CryptocurrencyTracker\CryptocurrencyTracker.iml" filepath="C:\Users\ethan\Desktop\CryptocurrencyTracker\CryptocurrencyTracker.iml" />
+      <module fileurl="file://$USER_HOME$/Desktop/CryptocurrencyTracker/CryptocurrencyTracker.iml" filepath="$USER_HOME$/Desktop/CryptocurrencyTracker/CryptocurrencyTracker.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\ethan\Desktop\CryptocurrencyTracker\app\app.iml" filepath="C:\Users\ethan\Desktop\CryptocurrencyTracker\app\app.iml" />
     </modules>
   </component>
 </project>

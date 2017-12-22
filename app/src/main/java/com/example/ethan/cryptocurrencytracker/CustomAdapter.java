@@ -1,6 +1,7 @@
 package com.example.ethan.cryptocurrencytracker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
  */
 
 
-public class CustomAdapter extends ArrayAdapter<Coin> {
+public class CustomAdapter extends ArrayAdapter<Coin> implements View.OnClickListener {
     private ArrayList<Coin> listCoins;
     private Context contextm;
 
@@ -55,5 +56,16 @@ public class CustomAdapter extends ArrayAdapter<Coin> {
         }
         return listItem;
 
+    }
+
+    @Override
+    public void onClick(View view) {
+        int currentItem = (Integer) view.getTag();
+        Object object = getItem(currentItem);
+        Coin coin = (Coin)object;
+
+        switch(view.getId()){
+
+        }
     }
 }

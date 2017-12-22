@@ -4,19 +4,16 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.BaseAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import okhttp3.Call;
@@ -40,7 +37,7 @@ public class MainMenu extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main_menu);
 
-        txt = (TextView) findViewById(R.id.txt);
+        txt = (TextView) findViewById(R.id.coinName);
         load();
 
     }
@@ -87,6 +84,18 @@ public class MainMenu extends AppCompatActivity {
             coinListView = (ListView)findViewById(R.id.list);
             CustomAdapter cAdapter = new CustomAdapter(coinList, this);
             coinListView.setAdapter(cAdapter);
+            coinListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Coin coinTemp = coinList.get(i);
+                    String nameTemp = coinTemp.getCoinName();
+                    Intent intent = new Intent(MainMenu.this, listclick.class);
+                    intent.putExtra("CoinName", nameTemp);
+                    startActivity(intent);
+
+                }
+
+            });
         }
         catch (Exception e){
 
