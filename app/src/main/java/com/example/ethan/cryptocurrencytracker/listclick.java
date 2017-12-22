@@ -38,13 +38,22 @@ public class listclick extends AppCompatActivity {
         Intent intent = getIntent();
         String currentCoinName = intent.getStringExtra("CoinName");
 
+        txt = findViewById(R.id.txt);
         TextView coinName = findViewById(R.id.coinName);
         coinName.setText(currentCoinName);
 
         load();
     }
+
+    private String add(String s){
+        Intent intent = getIntent();
+        String currentCoinName = intent.getStringExtra("CoinName");
+        return s + currentCoinName;
+    }
+
     private void load() {
-            Request coinRequest = new Request.Builder().url(currentCoinInfo).build();
+
+            Request coinRequest = new Request.Builder().url(add(currentCoinInfo)).build();
 
             okHttpClient.newCall(coinRequest).enqueue(new Callback() {
                 @Override
@@ -60,13 +69,16 @@ public class listclick extends AppCompatActivity {
                         @Override
                         public void run() {
                             parseCoinInfo(currentCoin);
-                            //temp(currentCoin);
+                            temp(currentCoin);
                         }
                     });
                 }
             });
     }
 
+    private void temp(String x){
+        txt.setText(x);
+    }
     private void parseCoinInfo(String currentCoin){
         try{
             Intent intent = getIntent();
