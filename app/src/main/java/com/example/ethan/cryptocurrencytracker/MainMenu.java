@@ -70,8 +70,6 @@ public class MainMenu extends AppCompatActivity {
             JSONObject jsonObject;
             JSONArray jsonArray = new JSONArray(jsonData);
 
-            StringBuilder stringBuilder = new StringBuilder();
-
             for(int i = 0; i < jsonArray.length(); i++){
                 jsonObject = jsonArray.getJSONObject(i);
                 String name = jsonObject.getString("name");
