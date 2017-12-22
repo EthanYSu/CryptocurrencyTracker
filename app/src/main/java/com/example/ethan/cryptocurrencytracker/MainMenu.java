@@ -72,11 +72,12 @@ public class MainMenu extends AppCompatActivity {
 
             for(int i = 0; i < jsonArray.length(); i++){
                 jsonObject = jsonArray.getJSONObject(i);
+                String id = jsonObject.getString("id");
                 String name = jsonObject.getString("name");
                 String symbol = jsonObject.getString("symbol");
                 String price = jsonObject.getString("price_usd");
                 String change = jsonObject.getString("percent_change_24h");
-                coinList.add(new Coin(name, symbol, price, change));
+                coinList.add(new Coin(id, name, symbol, price, change));
                 coinNames.add(name);
             }
             coinListView = (ListView)findViewById(R.id.list);
@@ -86,9 +87,11 @@ public class MainMenu extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Coin coinTemp = coinList.get(i);
-                    String nameTemp = coinTemp.getCoinName();
+                    String nameTemp = coinTemp.getId();
+                    String symbolTemp = coinTemp.getSymbolName();
                     Intent intent = new Intent(MainMenu.this, listclick.class);
                     intent.putExtra("CoinName", nameTemp);
+                    intent.putExtra("CoinSymbol", symbolTemp);
                     startActivity(intent);
 
                 }

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">CryptocurrencyTracker</string>
+
+    <string name="textview">TextView</string>
+    <string name="currentPrice">Current Price</string>
+    <string name="oneHour">Percent Change (1HR)</string>
+    <string name="oneDay">Percent Change (24HR)</string>
+    <string name="sevenDay">Percent Change (7D)</string>
+
 </resources>
