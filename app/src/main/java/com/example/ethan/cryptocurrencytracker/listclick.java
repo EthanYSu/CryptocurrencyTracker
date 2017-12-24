@@ -44,8 +44,6 @@ public class listclick extends AppCompatActivity {
         volumeTotal = findViewById(R.id.volume);
         availableSupply = findViewById(R.id.availableSupply);
 
-        txt = findViewById(R.id.txt);
-
         load();
     }
 
@@ -80,9 +78,6 @@ public class listclick extends AppCompatActivity {
             });
     }
 
-    private void temp(String x){
-        txt.setText(x);
-    }
     private void parseCoinInfo(String currentCoin){
         try{
             JSONObject jsonObject;

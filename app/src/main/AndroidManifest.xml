@@ -19,10 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".listclick" />
-        <activity
-            android:name=".graphActivity"
-            android:label="@string/title_activity_graph"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".graphActivity"></activity>
     </application>
 
 </manifest>
