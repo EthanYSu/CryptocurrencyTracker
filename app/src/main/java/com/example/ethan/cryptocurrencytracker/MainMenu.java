@@ -3,9 +3,12 @@ package com.example.ethan.cryptocurrencytracker;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +31,7 @@ public class MainMenu extends AppCompatActivity {
     private TextView txt;
     private ArrayList<String> coinNames = new ArrayList<>();
     ArrayList<Coin> coinList = new ArrayList<>();
-
+    EditText editText;
     ListView coinListView;
 
     @Override
@@ -83,6 +86,22 @@ public class MainMenu extends AppCompatActivity {
             coinListView = (ListView)findViewById(R.id.list);
             CustomAdapter cAdapter = new CustomAdapter(coinList, this);
             coinListView.setAdapter(cAdapter);
+            editText = findViewById(R.id.coinSearch);
+            editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
             coinListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -103,6 +122,8 @@ public class MainMenu extends AppCompatActivity {
         }
     }
 
+    public void coinSearch(View view) {
+    }
 }
 
 

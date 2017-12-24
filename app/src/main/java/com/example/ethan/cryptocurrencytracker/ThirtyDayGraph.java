@@ -19,4 +19,15 @@ public class ThirtyDayGraph  extends Fragment {
         gA.load("30day");
         return rootView;
     }
+    @Override
+    public void onStart() {
+        super.onStart();
+        graphActivity gA = (graphActivity) getActivity();
+        gA.load("30day");
+    }
+    public void onResume() {
+        graphActivity gA = (graphActivity) getActivity();
+        gA.load("30day");
+        super.onResume();
+    }
 }

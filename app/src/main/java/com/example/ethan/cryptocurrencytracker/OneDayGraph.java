@@ -23,7 +23,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public class OneDayGraph extends Fragment{
-    private TextView oneDay;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,6 +32,17 @@ public class OneDayGraph extends Fragment{
         gA.load("1day");
 
         return rootView;
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        graphActivity gA = (graphActivity) getActivity();
+        gA.load("1day");
+    }
+    public void onResume() {
+        graphActivity gA = (graphActivity) getActivity();
+        gA.load("1day");
+        super.onResume();
     }
 
 }

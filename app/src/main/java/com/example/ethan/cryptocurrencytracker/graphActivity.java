@@ -27,6 +27,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,11 +43,15 @@ public class graphActivity extends AppCompatActivity {
     OkHttpClient okHttpClient = new OkHttpClient();
     private final String coinGraphAPI = "http://coincap.io/history/";
     private SectionsPagerAdapter mSectionsPagerAdapter;
+    private ArrayList<Long> xCoordinate1Day = new ArrayList<>();
+    private ArrayList<Double> yCoordinate1Day = new ArrayList<>();
+    private ArrayList<Long> xCoordinate7Day = new ArrayList<>();
+    private ArrayList<Double> yCoordinate7Day = new ArrayList<>();
+    private ArrayList<Long> xCoordinate30Day = new ArrayList<>();
+    private ArrayList<Double> yCoordinate30Day = new ArrayList<>();
 
+    LineGraphSeries<DataPoint> coinGraph1Day,coinGraph7Day,coinGraph30Day;
 
-    /**
-     * The {@link ViewPager} that will host the section contents.
-     */
     private ViewPager mViewPager;
 
     @Override
@@ -76,14 +81,22 @@ public class graphActivity extends AppCompatActivity {
 //        Fragment tab3 = getSupportFragmentManager().findFragmentByTag("30 Day");
 //
 //        if(tab1 != null && tab1.isVisible()){
-//            graphType = "1Day";
+//            graphType = "1day";
+//            load(graphType);
 //        }
-//        if(tab1 != null && tab2.isVisible()){
+//        if(tab2 != null && tab2.isVisible()){
 //            graphType = "7day";
+//            load(graphType);
+//
 //        }
-//        if(tab1 != null && tab3.isVisible()){
+//        if(tab3 != null && tab3.isVisible()){
 //            graphType = "30day";
+//            load(graphType);
+//
 //        }
+//        load("1day");
+//        load("7day");
+//        load("30day");
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -150,24 +163,53 @@ public class graphActivity extends AppCompatActivity {
         try{
             JSONObject jsonObject = new JSONObject(graphInfo);
             JSONArray jsonArray = jsonObject.getJSONArray("price");
-            StringBuilder stringBuilder = new StringBuilder();
-            for(int i = 0; i< jsonArray.length(); i++){
-                JSONArray innerArray = jsonArray.getJSONArray(i);
-                stringBuilder.append(innerArray.get(0)).append("\t"+ innerArray.get(1)+"\n");
-            }
+            coinGraph1Day = new LineGraphSeries<>();
+            coinGraph7Day = new LineGraphSeries<>();
+            coinGraph30Day = new LineGraphSeries<>();
 
-            TextView output;
+            GraphView graphView;
+
             if(s.equals("1day")){
-                output = findViewById(R.id.txt);
-                output.setText(stringBuilder.toString());
+                for(int i = 0; i< jsonArray.length(); i++){
+                    JSONArray innerArray = jsonArray.getJSONArray(i);
+                    Long x = innerArray.getLong(0);
+                    Double y = innerArray.getDouble(1);
+                    xCoordinate1Day.add(x);
+                    yCoordinate1Day.add(y);
+                }
+                graphView = findViewById(R.id.graph1Day);
+                for(int j = 0; j < xCoordinate1Day.size(); j++){
+                    coinGraph1Day.appendData(new DataPoint(xCoordinate1Day.get(j), yCoordinate1Day.get(j)), true, xCoordinate1Day.size());
+                }
+                graphView.addSeries(coinGraph1Day);
             }
             if(s.equals("7day")){
-                output = findViewById(R.id.txt7);
-                output.setText(stringBuilder.toString());
+                for(int i = 0; i< jsonArray.length(); i++){
+                    JSONArray innerArray = jsonArray.getJSONArray(i);
+                    Long x = innerArray.getLong(0);
+                    Double y = innerArray.getDouble(1);
+                    xCoordinate7Day.add(x);
+                    yCoordinate7Day.add(y);
+                }
+                graphView = findViewById(R.id.graph7Day);
+                for(int j = 0; j < xCoordinate7Day.size(); j++){
+                    coinGraph7Day.appendData(new DataPoint(xCoordinate7Day.get(j), yCoordinate7Day.get(j)), true, xCoordinate7Day.size());
+                }
+                graphView.addSeries(coinGraph7Day);
             }
             if(s.equals("30day")){
-                output = findViewById(R.id.txt30);
-                output.setText(stringBuilder.toString());
+                for(int i = 0; i< jsonArray.length(); i++){
+                    JSONArray innerArray = jsonArray.getJSONArray(i);
+                    Long x = innerArray.getLong(0);
+                    Double y = innerArray.getDouble(1);
+                    xCoordinate30Day.add(x);
+                    yCoordinate30Day.add(y);
+                }
+                graphView = findViewById(R.id.graph30Day);
+                for(int j = 0; j < xCoordinate30Day.size(); j++){
+                    coinGraph30Day.appendData(new DataPoint(xCoordinate30Day.get(j), yCoordinate30Day.get(j)), true, xCoordinate30Day.size());
+                }
+                graphView.addSeries(coinGraph30Day);
             }
         }
         catch (Exception e){

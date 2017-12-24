@@ -6,10 +6,9 @@
     android:layout_height="match_parent"
     tools:context="com.example.ethan.cryptocurrencytracker.graphActivity$PlaceholderFragment">
 
-    <TextView
+    <com.jjoe64.graphview.GraphView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/txt30"
-        android:text="temp30"/>
+        android:id="@+id/graph30Day"/>
 
 </RelativeLayout>

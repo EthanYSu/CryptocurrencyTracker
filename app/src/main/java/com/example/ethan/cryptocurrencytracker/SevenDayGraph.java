@@ -19,4 +19,16 @@ public class SevenDayGraph extends Fragment {
         gA.load("7day");
         return rootView;
     }
+    @Override
+    public void onStart() {
+        graphActivity gA = (graphActivity) getActivity();
+        gA.load("7day");
+        super.onStart();
+    }
+
+    public void onResume() {
+        graphActivity gA = (graphActivity) getActivity();
+        gA.load("7day");
+        super.onResume();
+    }
 }
