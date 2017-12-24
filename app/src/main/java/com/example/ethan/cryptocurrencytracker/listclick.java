@@ -73,7 +73,7 @@ public class listclick extends AppCompatActivity {
                         @Override
                         public void run() {
                             parseCoinInfo(currentCoin);
-                            temp(currentCoin);
+                            temp(currentCoin);  
                         }
                     });
                 }
