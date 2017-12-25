@@ -40,7 +40,7 @@ public class MainMenu extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main_menu);
 
-        txt = (TextView) findViewById(R.id.coinName);
+        txt = findViewById(R.id.coinName);
         load();
 
     }
@@ -83,7 +83,7 @@ public class MainMenu extends AppCompatActivity {
                 coinList.add(new Coin(id, name, symbol, price, change));
                 coinNames.add(name);
             }
-            coinListView = (ListView)findViewById(R.id.list);
+            coinListView = findViewById(R.id.list);
             CustomAdapter cAdapter = new CustomAdapter(coinList, this);
             coinListView.setAdapter(cAdapter);
             editText = findViewById(R.id.coinSearch);

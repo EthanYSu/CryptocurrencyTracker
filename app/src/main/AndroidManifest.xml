@@ -19,7 +19,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".listclick" />
-        <activity android:name=".graphActivity"></activity>
     </application>
 
 </manifest>

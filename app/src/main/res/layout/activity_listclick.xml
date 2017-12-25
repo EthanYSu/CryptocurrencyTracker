@@ -28,10 +28,10 @@
         android:id="@+id/priceView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/coinName"
-        android:layout_marginTop="20dp"
+        android:layout_alignLeft="@+id/chg1HR"
+        android:layout_alignStart="@+id/chg1HR"
+        android:layout_below="@+id/oneDayButton"
+        android:layout_marginTop="23dp"
         android:text="@string/currentPrice"
         android:textSize="16sp" />
 
@@ -39,11 +39,11 @@
         android:id="@+id/coinPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/priceView"
+        android:layout_above="@+id/changeOneHour"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:text="@string/textview"
-        android:textSize="16sp"/>
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/textView5"
@@ -58,11 +58,11 @@
         android:id="@+id/chg1HR"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignTop="@+id/textView5"
+        android:layout_alignBottom="@+id/textView5"
+        android:layout_toLeftOf="@+id/thirtyDayButton"
+        android:layout_toStartOf="@+id/thirtyDayButton"
         android:text="@string/oneHour"
-        android:textSize="16sp"/>
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/changeOneHour"
@@ -78,12 +78,12 @@
         android:id="@+id/chg24Hr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignLeft="@+id/chg1HR"
+        android:layout_alignStart="@+id/chg1HR"
         android:layout_below="@+id/chg1HR"
         android:layout_marginTop="10dp"
         android:text="@string/oneDay"
-        android:textSize="16sp"/>
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/change24Hour"
@@ -99,12 +99,12 @@
         android:id="@+id/chg7day"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignLeft="@+id/chg24Hr"
+        android:layout_alignStart="@+id/chg24Hr"
         android:layout_below="@+id/chg24Hr"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="12dp"
         android:text="@string/sevenDay"
-        android:textSize="16sp"/>
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/change7Day"
@@ -113,28 +113,17 @@
         android:layout_alignBottom="@+id/chg7day"
         android:layout_alignLeft="@+id/change24Hour"
         android:layout_alignStart="@+id/change24Hour"
+        android:layout_marginTop="10dp"
         android:text="@string/textview"
         android:textSize="16sp"/>
 
 
     <TextView
-        android:id="@+id/graph"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView7"
-        android:layout_marginTop="31dp"
-        android:layout_toEndOf="@+id/textView5"
-        android:layout_toRightOf="@+id/textView5"
-        android:onClick="graphClick"
-        android:text="Graph"
-        android:textSize="25sp" />
-
-    <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignLeft="@+id/chg7day"
+        android:layout_alignStart="@+id/chg7day"
         android:layout_below="@+id/chg7day"
         android:layout_marginTop="10dp"
         android:text="Market Cap"
@@ -154,8 +143,8 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignStart="@+id/textView2"
         android:layout_below="@+id/textView2"
         android:layout_marginTop="10dp"
         android:text="Volume"
@@ -175,8 +164,8 @@
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignLeft="@+id/textView4"
+        android:layout_alignStart="@+id/textView4"
         android:layout_below="@+id/textView4"
         android:layout_marginTop="10dp"
         android:text="Available Supply"
@@ -191,5 +180,68 @@
         android:layout_alignRight="@+id/volume"
         android:text="TextView"
         android:textSize="16sp" />
+
+    <com.jjoe64.graphview.GraphView
+        android:layout_width="fill_parent"
+        android:layout_height="250dp"
+        android:layout_alignEnd="@+id/coinPrice"
+        android:layout_alignRight="@+id/coinPrice"
+        android:layout_below="@+id/coinName"
+        android:id="@+id/graphView" />
+
+    <Button
+        android:id="@+id/oneDayButton"
+        android:layout_width="80sp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/graphView"
+        android:background="@android:color/transparent"
+        android:onClick="oneDayClick"
+        android:text="1 Day" />
+
+    <Button
+        android:id="@+id/sevenDayButton"
+        android:layout_width="80sp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/graphView"
+        android:layout_toEndOf="@+id/oneDayButton"
+        android:layout_toRightOf="@+id/oneDayButton"
+        android:background="@android:color/transparent"
+        android:onClick="sevenDayClick"
+        android:text="7 Day" />
+
+    <Button
+        android:id="@+id/thirtyDayButton"
+        android:layout_width="80sp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/graphView"
+        android:layout_toEndOf="@+id/sevenDayButton"
+        android:layout_toRightOf="@+id/sevenDayButton"
+        android:background="@android:color/transparent"
+        android:onClick="thirtyDayClick"
+        android:text="30 Day" />
+
+    <Button
+        android:id="@+id/sixMonthButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/thirtyDayButton"
+        android:layout_toEndOf="@+id/thirtyDayButton"
+        android:layout_toRightOf="@+id/thirtyDayButton"
+        android:background="@android:color/transparent"
+        android:onClick="sixMonthClick"
+        android:text="180 Day" />
+
+    <Button
+        android:id="@+id/oneYearButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/graphView"
+        android:layout_toEndOf="@+id/sixMonthButton"
+        android:layout_toRightOf="@+id/sixMonthButton"
+        android:background="@android:color/transparent"
+        android:onClick="oneYearClick"
+        android:text="365 Day" />
 
 </RelativeLayout>

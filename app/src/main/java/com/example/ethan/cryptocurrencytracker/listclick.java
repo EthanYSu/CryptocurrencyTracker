@@ -9,13 +9,19 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.net.URL;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 
 import okhttp3.Call;
@@ -29,6 +35,11 @@ public class listclick extends AppCompatActivity {
     private TextView coinName, coinSymbol, coinPrice, change1Hour,
             change24Hour, change7Day, marketCap, volumeTotal, availableSupply, txt;
     private static final String currentCoinInfo = "https://api.coinmarketcap.com/v1/ticker/";
+    private static final String currentGraphInfo = "http://coincap.io/history/";
+    private ArrayList<GraphCoordinates> graphCoordinates = new ArrayList<>();
+    LineGraphSeries<DataPoint> coinGraph;
+    GraphView graphView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,19 +55,28 @@ public class listclick extends AppCompatActivity {
         volumeTotal = findViewById(R.id.volume);
         availableSupply = findViewById(R.id.availableSupply);
 
-        load();
+        coinGraph = new LineGraphSeries<>();
+        graphView = findViewById(R.id.graphView);
+
+        loadCoin();
+        loadGraph("30day");
     }
 
-    private String add(String s){
+    private String addName(String s){
         Intent intent = getIntent();
         String currentCoinName = intent.getStringExtra("CoinName");
         return s + currentCoinName;
     }
 
-    private void load() {
+    private String addSymbol(String s){
+        Intent intent = getIntent();
+        String coinSymbol = intent.getStringExtra("CoinSymbol");
+        return currentGraphInfo + s + "/" + coinSymbol;
+    }
 
-            Request coinRequest = new Request.Builder().url(add(currentCoinInfo)).build();
 
+    private void loadCoin() {
+            Request coinRequest = new Request.Builder().url(addName(currentCoinInfo)).build();
             okHttpClient.newCall(coinRequest).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
@@ -71,11 +91,33 @@ public class listclick extends AppCompatActivity {
                         @Override
                         public void run() {
                             parseCoinInfo(currentCoin);
-                            temp(currentCoin);
                         }
                     });
                 }
             });
+    }
+
+    private void loadGraph(final String s){
+        Request graphRequest = new Request.Builder().url(addSymbol(s)).build();
+        okHttpClient.newCall(graphRequest).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Toast.makeText(listclick.this, "Error in Loading" + e.getMessage(),
+                        Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String graphInfo = response.body().string();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        parseGraphInfo(graphInfo,s);
+                    }
+                });
+            }
+        });
+
     }
 
     private void parseCoinInfo(String currentCoin){
@@ -93,15 +135,6 @@ public class listclick extends AppCompatActivity {
             String volume = jsonObject.getString("24h_volume_usd");
             String supply = jsonObject.getString("available_supply");
             String cap = jsonObject.getString("market_cap_usd");
-//
-//            int i = Integer.parseInt(volume);
-//            int j = Integer.parseInt(supply);
-//            int k = Integer.parseInt(cap);
-//
-//            String mCap = NumberFormat.getNumberInstance(Locale.US).format(k);
-//            String volume24hr = NumberFormat.getNumberInstance(Locale.US).format(i);
-//            String aSupply = NumberFormat.getNumberInstance(Locale.US).format(j);
-
 
             marketCap.setText(cap);
             volumeTotal.setText(volume);
@@ -144,12 +177,48 @@ public class listclick extends AppCompatActivity {
 
         }
     }
+    private void parseGraphInfo(String graphInfo, String s){
+        try{
+            JSONObject jsonObject = new JSONObject(graphInfo);
+            JSONArray jsonArray  = jsonObject.getJSONArray("price");
+            for(int i =0; i < jsonArray.length(); i++){
+                JSONArray innerArray = jsonArray.getJSONArray(i);
+                Long x = innerArray.getLong(0);
+                Double y = innerArray.getDouble(1);
+                graphCoordinates.add(new GraphCoordinates(x,y));
+            }
+            if(s.equals("1day")){
+                for(int i = 0; i < graphCoordinates.size(); i++){
+                    GraphCoordinates temp = graphCoordinates.get(i);
+                    coinGraph.appendData(new DataPoint(temp.getX(), temp.getY()), true, graphCoordinates.size());
+                }
+                graphView.addSeries(coinGraph);
+            }
+            if(s.equals("7day")){
 
-    public void graphClick(View view) {
-        Intent intent = getIntent();
-        String currentSymbol = intent.getStringExtra("CoinSymbol");
-        Intent graphIntent = new Intent(this, graphActivity.class);
-        graphIntent.putExtra("CoinSymbol", currentSymbol);
-        startActivity(graphIntent);
+            }
+            if(s.equals("30day")){
+
+            }
+            if(s.equals("180day")){
+
+            }
+            if(s.equals("365day")){
+
+            }
+
+        }
+        catch (Exception e){
+        }
     }
+
+    public void oneDayClick(View view) {loadGraph("1day");}
+
+    public void sevenDayClick(View view) {loadGraph("7day");}
+
+    public void thirtyDayClick(View view) {loadGraph("30day");}
+
+    public void sixMonthClick(View view) {loadGraph("180day");}
+
+    public void oneYearClick(View view) {loadGraph("365day");}
 }
