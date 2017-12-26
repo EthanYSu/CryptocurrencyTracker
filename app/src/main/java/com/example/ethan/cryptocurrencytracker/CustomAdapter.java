@@ -10,13 +10,11 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
  * Created by ethan on 12/20/2017.
  */
-
 
 public class CustomAdapter extends ArrayAdapter<Coin> implements Filterable {
     private ArrayList<Coin> listCoins;
@@ -66,24 +64,24 @@ public class CustomAdapter extends ArrayAdapter<Coin> implements Filterable {
         return listItem;
 
     }
-    private class coinFilter extends Filter{
+    private class coinFilter extends Filter {
 
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
             FilterResults results = new FilterResults();
-            if(charSequence == null || charSequence.length() == 0){
-                results.values = listCoins;
-                results.values = listCoins.size();
-            }
-            else{
-                ArrayList<Coin> coinData = new ArrayList<>();
-                for(Coin c : listCoins){
-                    if(c.getCoinName().toUpperCase().contains(charSequence.toString().toUpperCase())){
-                        coinData.add(c);
+            ArrayList<Coin> coinData = new ArrayList<>();
+            if(charSequence != null || charSequence.length() > 0){
+                for(int i = 0; i < listCoins.size(); i++){
+                    if(listCoins.get(i).getCoinName().toLowerCase().contains(charSequence.toString().toLowerCase())){
+                        coinData.add(listCoins.get(i));
                     }
                 }
-                results.values = coinData;
                 results.count = coinData.size();
+                results.values = coinData;
+            }
+            else{
+                results.count = listCoins.size();
+                results.values = listCoins;
             }
             return results;
         }

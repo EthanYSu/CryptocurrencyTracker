@@ -88,6 +88,7 @@ public class MainMenu extends Activity {
             final CustomAdapter cAdapter = new CustomAdapter(coinList, this);
             coinListView.setAdapter(cAdapter);
             editText = findViewById(R.id.coinSearch);
+            editText.setText("");
             editText.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
