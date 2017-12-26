@@ -1,6 +1,8 @@
 package com.example.ethan.cryptocurrencytracker;
 
-public class Coin {
+import java.util.ArrayList;
+
+public class Coin extends ArrayList<Coin> {
     private String id;
     private String coinName;
     private String symbolName;

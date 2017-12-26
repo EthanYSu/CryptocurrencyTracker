@@ -59,7 +59,7 @@ public class listclick extends AppCompatActivity {
         graphView = findViewById(R.id.graphView);
 
         loadCoin();
-        loadGraph("30day");
+        loadGraph("1day");
     }
 
     private String addName(String s){
@@ -181,29 +181,55 @@ public class listclick extends AppCompatActivity {
         try{
             JSONObject jsonObject = new JSONObject(graphInfo);
             JSONArray jsonArray  = jsonObject.getJSONArray("price");
+            //StringBuilder stringBuilder = new StringBuilder();
             for(int i =0; i < jsonArray.length(); i++){
                 JSONArray innerArray = jsonArray.getJSONArray(i);
                 Long x = innerArray.getLong(0);
                 Double y = innerArray.getDouble(1);
+                //stringBuilder.append(x+ "\t").append(y + "\n");
                 graphCoordinates.add(new GraphCoordinates(x,y));
             }
+            //TextView txt = findViewById(R.id.txt);
+            //txt.setText(stringBuilder.toString());
+
+
             if(s.equals("1day")){
                 for(int i = 0; i < graphCoordinates.size(); i++){
                     GraphCoordinates temp = graphCoordinates.get(i);
-                    coinGraph.appendData(new DataPoint(temp.getX(), temp.getY()), true, graphCoordinates.size());
+                    coinGraph.appendData(new DataPoint(i, temp.getY()), true, graphCoordinates.size());
                 }
                 graphView.addSeries(coinGraph);
             }
             if(s.equals("7day")){
+                for(int i = 0; i < graphCoordinates.size(); i++){
+                    GraphCoordinates temp = graphCoordinates.get(i);
+                    coinGraph.appendData(new DataPoint(i, temp.getY()), true, graphCoordinates.size());
+                }
+                graphView.addSeries(coinGraph);
 
             }
             if(s.equals("30day")){
+                for(int i = 0; i < graphCoordinates.size(); i++){
+                    GraphCoordinates temp = graphCoordinates.get(i);
+                    coinGraph.appendData(new DataPoint(i, temp.getY()), true, graphCoordinates.size());
+                }
+                graphView.addSeries(coinGraph);
 
             }
             if(s.equals("180day")){
+                for(int i = 0; i < graphCoordinates.size(); i++){
+                    GraphCoordinates temp = graphCoordinates.get(i);
+                    coinGraph.appendData(new DataPoint(i, temp.getY()), true, graphCoordinates.size());
+                }
+                graphView.addSeries(coinGraph);
 
             }
             if(s.equals("365day")){
+                for(int i = 0; i < graphCoordinates.size(); i++){
+                    GraphCoordinates temp = graphCoordinates.get(i);
+                    coinGraph.appendData(new DataPoint(i, temp.getY()), true, graphCoordinates.size());
+                }
+                graphView.addSeries(coinGraph);
 
             }
 
@@ -212,13 +238,29 @@ public class listclick extends AppCompatActivity {
         }
     }
 
-    public void oneDayClick(View view) {loadGraph("1day");}
+    public void oneDayClick(View view) {//loadGraph("1day");
+        //graphView.removeAllSeries();
+        loadGraph("1day");
 
-    public void sevenDayClick(View view) {loadGraph("7day");}
+    }
 
-    public void thirtyDayClick(View view) {loadGraph("30day");}
+    public void sevenDayClick(View view) {//loadGraph("7day");
+        //graphView.removeAllSeries();
+        loadGraph("7day");
+    }
 
-    public void sixMonthClick(View view) {loadGraph("180day");}
+    public void thirtyDayClick(View view) {//loadGraph("30day");
+        //graphView.removeAllSeries();
+        loadGraph("30day");
+    }
 
-    public void oneYearClick(View view) {loadGraph("365day");}
+    public void sixMonthClick(View view) {//loadGraph("180day");
+        //graphView.removeAllSeries();
+        loadGraph("180day");
+    }
+
+    public void oneYearClick(View view) {//loadGraph("365day");
+        //graphView.removeAllSeries();
+        loadGraph("365day");
+    }
 }

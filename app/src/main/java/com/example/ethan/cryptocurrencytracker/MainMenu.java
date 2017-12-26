@@ -1,5 +1,6 @@
 package com.example.ethan.cryptocurrencytracker;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,7 +26,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class MainMenu extends AppCompatActivity {
+public class MainMenu extends Activity {
     private OkHttpClient okHttpClient = new OkHttpClient();
     public static final String coinAPI = "https://api.coinmarketcap.com/v1/ticker/";
     private TextView txt;
@@ -84,7 +85,7 @@ public class MainMenu extends AppCompatActivity {
                 coinNames.add(name);
             }
             coinListView = findViewById(R.id.list);
-            CustomAdapter cAdapter = new CustomAdapter(coinList, this);
+            final CustomAdapter cAdapter = new CustomAdapter(coinList, this);
             coinListView.setAdapter(cAdapter);
             editText = findViewById(R.id.coinSearch);
             editText.addTextChangedListener(new TextWatcher() {
@@ -95,6 +96,7 @@ public class MainMenu extends AppCompatActivity {
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    cAdapter.getFilter().filter(charSequence.toString());
                 }
 
                 @Override
@@ -122,8 +124,7 @@ public class MainMenu extends AppCompatActivity {
         }
     }
 
-    public void coinSearch(View view) {
-    }
+
 }
 
 

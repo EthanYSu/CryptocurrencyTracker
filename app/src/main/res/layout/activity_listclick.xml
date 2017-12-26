@@ -31,7 +31,7 @@
         android:layout_alignLeft="@+id/chg1HR"
         android:layout_alignStart="@+id/chg1HR"
         android:layout_below="@+id/oneDayButton"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="27dp"
         android:text="@string/currentPrice"
         android:textSize="16sp" />
 
@@ -39,7 +39,8 @@
         android:id="@+id/coinPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/changeOneHour"
+        android:layout_alignBaseline="@+id/priceView"
+        android:layout_alignBottom="@+id/priceView"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:text="@string/textview"

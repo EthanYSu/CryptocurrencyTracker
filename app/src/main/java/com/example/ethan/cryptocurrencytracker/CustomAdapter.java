@@ -1,17 +1,16 @@
 package com.example.ethan.cryptocurrencytracker;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -19,9 +18,10 @@ import java.util.ArrayList;
  */
 
 
-public class CustomAdapter extends ArrayAdapter<Coin> implements View.OnClickListener {
+public class CustomAdapter extends ArrayAdapter<Coin> implements Filterable {
     private ArrayList<Coin> listCoins;
     private Context contextm;
+    private coinFilter cFilter;
 
     public CustomAdapter(ArrayList<Coin> coins, Context context){
         super(context, 0, coins);
@@ -29,6 +29,15 @@ public class CustomAdapter extends ArrayAdapter<Coin> implements View.OnClickLis
         this.contextm = context;
     }
 
+    public int getCount(){
+        return listCoins != null ? listCoins.size() : 0;
+    }
+    public Coin getItem(int position){
+        return null;
+    }
+    public long getItemId(int position){
+        return 0;
+    }
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         View listItem = convertView;
@@ -37,10 +46,10 @@ public class CustomAdapter extends ArrayAdapter<Coin> implements View.OnClickLis
 
         Coin currentCoin = listCoins.get(position);
 
-        TextView nameText = (TextView) listItem.findViewById(R.id.coin);
-        TextView symbolText = (TextView) listItem.findViewById(R.id.coinInitial);
-        TextView priceText = (TextView) listItem.findViewById(R.id.price);
-        TextView changeText = (TextView) listItem.findViewById(R.id.change);
+        TextView nameText = listItem.findViewById(R.id.coin);
+        TextView symbolText = listItem.findViewById(R.id.coinInitial);
+        TextView priceText = listItem.findViewById(R.id.price);
+        TextView changeText = listItem.findViewById(R.id.change);
 
         nameText.setText(currentCoin.getCoinName());
         symbolText.setText("(" + currentCoin.getSymbolName() + ")");
@@ -57,15 +66,40 @@ public class CustomAdapter extends ArrayAdapter<Coin> implements View.OnClickLis
         return listItem;
 
     }
+    private class coinFilter extends Filter{
 
-    @Override
-    public void onClick(View view) {
-        int currentItem = (Integer) view.getTag();
-        Object object = getItem(currentItem);
-        Coin coin = (Coin)object;
-
-        switch(view.getId()){
-
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            FilterResults results = new FilterResults();
+            if(charSequence == null || charSequence.length() == 0){
+                results.values = listCoins;
+                results.values = listCoins.size();
+            }
+            else{
+                ArrayList<Coin> coinData = new ArrayList<>();
+                for(Coin c : listCoins){
+                    if(c.getCoinName().toUpperCase().contains(charSequence.toString().toUpperCase())){
+                        coinData.add(c);
+                    }
+                }
+                results.values = coinData;
+                results.count = coinData.size();
+            }
+            return results;
+        }
+        @SuppressWarnings("unchecked")
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            listCoins = (ArrayList<Coin>) filterResults.values;
+            notifyDataSetChanged();
         }
     }
+
+    public Filter getFilter(){
+        if(cFilter == null){
+            cFilter = new coinFilter();
+        }
+        return cFilter;
+    }
+
 }
