@@ -1,6 +1,7 @@
 package com.example.ethan.cryptocurrencytracker;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,12 +39,12 @@ public class CustomAdapter extends ArrayAdapter<Coin> implements Filterable {
         return 0;
     }
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
+    public View getView(final int position, View convertView, ViewGroup parent){
         View listItem = convertView;
         if(listItem == null)
             listItem = LayoutInflater.from(contextm).inflate(R.layout.listview, parent, false);
 
-        Coin currentCoin = listCoins.get(position);
+        final Coin currentCoin = listCoins.get(position);
 
         TextView nameText = listItem.findViewById(R.id.coin);
         TextView symbolText = listItem.findViewById(R.id.coinInitial);
@@ -62,6 +63,15 @@ public class CustomAdapter extends ArrayAdapter<Coin> implements Filterable {
             changeText.setText(currentCoin.getCoinChange());
             changeText.setTextColor(Color.RED);
         }
+        listItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(contextm, listclick.class);
+                intent.putExtra("CoinName", currentCoin.getId());
+                intent.putExtra("CoinSymbol", currentCoin.getSymbolName());
+                contextm.startActivity(intent);
+            }
+        });
         return listItem;
 
     }
@@ -69,7 +79,7 @@ public class CustomAdapter extends ArrayAdapter<Coin> implements Filterable {
         ArrayList<Coin> filterList;
         CustomAdapter adapter;
 
-        public coinFilter(ArrayList<Coin> filterList, CustomAdapter adapter ){
+        public coinFilter(ArrayList<Coin> filterList, CustomAdapter adapter){
             this.filterList = filterList;
             this.adapter = adapter;
         }
@@ -81,7 +91,9 @@ public class CustomAdapter extends ArrayAdapter<Coin> implements Filterable {
                 ArrayList<Coin> coinData = new ArrayList<>();
 
                 for(int i = 0; i < filterList.size(); i++){
-                    if(filterList.get(i).getCoinName().toUpperCase().contains(charSequence.toString().toUpperCase())){
+                    charSequence = charSequence.toString().toUpperCase();
+                    if(filterList.get(i).getCoinName().toUpperCase().contains(charSequence)||
+                            filterList.get(i).getSymbolName().toUpperCase().contains(charSequence)){
                         coinData.add(filterList.get(i));
                     }
                 }

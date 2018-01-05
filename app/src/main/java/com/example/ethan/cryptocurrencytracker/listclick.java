@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,10 +37,9 @@ public class listclick extends AppCompatActivity {
             change24Hour, change7Day, marketCap, volumeTotal, availableSupply, txt;
     private static final String currentCoinInfo = "https://api.coinmarketcap.com/v1/ticker/";
     private static final String currentGraphInfo = "http://coincap.io/history/";
-    private ArrayList<GraphCoordinates> graphCoordinates = new ArrayList<>();
     LineGraphSeries<DataPoint> coinGraph;
     GraphView graphView;
-
+    Button oneDay, sevenDay, thirtyDay, halfYear, oneYear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +55,51 @@ public class listclick extends AppCompatActivity {
         volumeTotal = findViewById(R.id.volume);
         availableSupply = findViewById(R.id.availableSupply);
 
-        coinGraph = new LineGraphSeries<>();
         graphView = findViewById(R.id.graphView);
-
+        oneDay = findViewById(R.id.oneDayButton);
+        sevenDay = findViewById(R.id.sevenDayButton);
+        thirtyDay = findViewById(R.id.thirtyDayButton);
+        halfYear = findViewById(R.id.sixMonthButton);
+        oneYear = findViewById(R.id.oneYearButton);
         loadCoin();
         loadGraph("1day");
+
+        oneDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                graphView.removeAllSeries();
+                loadGraph("1day");
+            }
+        });
+        sevenDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                graphView.removeAllSeries();
+                loadGraph("7day");
+            }
+        });
+        thirtyDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                graphView.removeAllSeries();
+                loadGraph("30day");
+            }
+        });
+        halfYear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                graphView.removeAllSeries();
+                loadGraph("180day");
+            }
+        });
+        oneYear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                graphView.removeAllSeries();
+                loadGraph("365day");
+            }
+        });
+
     }
 
     private String addName(String s){
@@ -182,6 +222,7 @@ public class listclick extends AppCompatActivity {
             JSONObject jsonObject = new JSONObject(graphInfo);
             JSONArray jsonArray  = jsonObject.getJSONArray("price");
             //StringBuilder stringBuilder = new StringBuilder();
+            ArrayList<GraphCoordinates> graphCoordinates = new ArrayList<>();
             for(int i =0; i < jsonArray.length(); i++){
                 JSONArray innerArray = jsonArray.getJSONArray(i);
                 Long x = innerArray.getLong(0);
@@ -192,6 +233,7 @@ public class listclick extends AppCompatActivity {
             //TextView txt = findViewById(R.id.txt);
             //txt.setText(stringBuilder.toString());
 
+            coinGraph = new LineGraphSeries<>();
 
             if(s.equals("1day")){
                 for(int i = 0; i < graphCoordinates.size(); i++){
@@ -238,29 +280,4 @@ public class listclick extends AppCompatActivity {
         }
     }
 
-    public void oneDayClick(View view) {//loadGraph("1day");
-        //graphView.removeAllSeries();
-        loadGraph("1day");
-
-    }
-
-    public void sevenDayClick(View view) {//loadGraph("7day");
-        //graphView.removeAllSeries();
-        loadGraph("7day");
-    }
-
-    public void thirtyDayClick(View view) {//loadGraph("30day");
-        //graphView.removeAllSeries();
-        loadGraph("30day");
-    }
-
-    public void sixMonthClick(View view) {//loadGraph("180day");
-        //graphView.removeAllSeries();
-        loadGraph("180day");
-    }
-
-    public void oneYearClick(View view) {//loadGraph("365day");
-        //graphView.removeAllSeries();
-        loadGraph("365day");
-    }
 }

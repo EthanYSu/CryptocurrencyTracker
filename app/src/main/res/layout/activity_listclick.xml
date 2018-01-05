@@ -198,7 +198,6 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/graphView"
         android:background="@android:color/transparent"
-        android:onClick="oneDayClick"
         android:text="1 Day" />
 
     <Button
@@ -209,7 +208,6 @@
         android:layout_toEndOf="@+id/oneDayButton"
         android:layout_toRightOf="@+id/oneDayButton"
         android:background="@android:color/transparent"
-        android:onClick="sevenDayClick"
         android:text="7 Day" />
 
     <Button
@@ -220,7 +218,6 @@
         android:layout_toEndOf="@+id/sevenDayButton"
         android:layout_toRightOf="@+id/sevenDayButton"
         android:background="@android:color/transparent"
-        android:onClick="thirtyDayClick"
         android:text="30 Day" />
 
     <Button
@@ -231,7 +228,6 @@
         android:layout_toEndOf="@+id/thirtyDayButton"
         android:layout_toRightOf="@+id/thirtyDayButton"
         android:background="@android:color/transparent"
-        android:onClick="sixMonthClick"
         android:text="180 Day" />
 
     <Button
@@ -242,7 +238,6 @@
         android:layout_toEndOf="@+id/sixMonthButton"
         android:layout_toRightOf="@+id/sixMonthButton"
         android:background="@android:color/transparent"
-        android:onClick="oneYearClick"
         android:text="365 Day" />
 
 </RelativeLayout>
