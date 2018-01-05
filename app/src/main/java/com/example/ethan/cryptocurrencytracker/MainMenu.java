@@ -11,6 +11,7 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,24 +86,19 @@ public class MainMenu extends Activity {
                 coinNames.add(name);
             }
             coinListView = findViewById(R.id.list);
-            final CustomAdapter cAdapter = new CustomAdapter(coinList, this);
+            final CustomAdapter cAdapter = new CustomAdapter(this,coinList);
             coinListView.setAdapter(cAdapter);
-            editText = findViewById(R.id.coinSearch);
-            editText.setText("");
-            editText.addTextChangedListener(new TextWatcher() {
+            SearchView sv = findViewById(R.id.coinSearch);
+            sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                public boolean onQueryTextSubmit(String s) {
+                    return false;
                 }
 
                 @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    cAdapter.getFilter().filter(charSequence.toString());
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-
+                public boolean onQueryTextChange(String s) {
+                    cAdapter.getFilter().filter(s);
+                    return false;
                 }
             });
             coinListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){

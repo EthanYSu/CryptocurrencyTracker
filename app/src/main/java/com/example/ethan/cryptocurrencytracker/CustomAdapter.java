@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -16,88 +17,66 @@ import java.util.ArrayList;
  * Created by ethan on 12/20/2017.
  */
 
-public class CustomAdapter extends ArrayAdapter<Coin> implements Filterable {
-    private ArrayList<Coin> listCoins;
-    private Context contextm;
-    private coinFilter cFilter;
+public class CustomAdapter extends BaseAdapter implements Filterable{
 
-    public CustomAdapter(ArrayList<Coin> coins, Context context){
-        super(context, 0, coins);
-        this.listCoins = coins;
-        this.contextm = context;
+    Context context;
+    ArrayList<Coin> coins;
+    LayoutInflater inflater;
+
+    ArrayList<Coin> filterList;
+    CoinFilter filter;
+
+    public CustomAdapter(Context context, ArrayList<Coin> coins){
+        this.coins = coins;
+        this.context = context;
     }
 
-    public int getCount(){
-        return listCoins != null ? listCoins.size() : 0;
-    }
-    public Coin getItem(int position){
-        return null;
-    }
-    public long getItemId(int position){
-        return 0;
-    }
     @Override
-    public View getView(int position, View convertView, ViewGroup parent){
-        View listItem = convertView;
-        if(listItem == null)
-            listItem = LayoutInflater.from(contextm).inflate(R.layout.listview, parent, false);
+    public int getCount() {
+        return coins.size();
+    }
 
-        Coin currentCoin = listCoins.get(position);
+    @Override
+    public Object getItem(int i) {
+        return coins.get(i);
+    }
 
-        TextView nameText = listItem.findViewById(R.id.coin);
-        TextView symbolText = listItem.findViewById(R.id.coinInitial);
-        TextView priceText = listItem.findViewById(R.id.price);
-        TextView changeText = listItem.findViewById(R.id.change);
+    @Override
+    public long getItemId(int i) {
+        return i;
+    }
 
-        nameText.setText(currentCoin.getCoinName());
-        symbolText.setText("(" + currentCoin.getSymbolName() + ")");
-        priceText.setText("$" + currentCoin.getCoinPrice());
-        double checkPlusMinus = Double.parseDouble(currentCoin.getCoinChange());
+    @Override
+    public View getView(int i, View view, ViewGroup viewGroup) {
+        if(inflater == null){
+            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
+        if(view == null){
+            view = inflater.inflate(R.layout.listview,null);
+        }
+        CoinHolder holder = new CoinHolder(view);
+
+        holder.nameText.setText(coins.get(i).getCoinName());
+        holder.symbolText.setText("("+coins.get(i).getSymbolName());
+        holder.priceText.setText("$" + coins.get(i).getCoinPrice());
+        double checkPlusMinus = Double.parseDouble(coins.get(i).getCoinChange());
         if(checkPlusMinus >= 0.00){
-            changeText.setText("+" + currentCoin.getCoinChange());
-            changeText.setTextColor(Color.GREEN);
+            holder.changeText.setText("+" + coins.get(i).getCoinChange());
+            holder.changeText.setTextColor(Color.GREEN);
         }
         else{
-            changeText.setText(currentCoin.getCoinChange());
-            changeText.setTextColor(Color.RED);
+            holder.changeText.setText(coins.get(i).getCoinChange());
+            holder.changeText.setTextColor(Color.RED);
         }
-        return listItem;
-
-    }
-    private class coinFilter extends Filter {
-
-        @Override
-        protected FilterResults performFiltering(CharSequence charSequence) {
-            FilterResults results = new FilterResults();
-            ArrayList<Coin> coinData = new ArrayList<>();
-            if(charSequence != null || charSequence.length() > 0){
-                for(int i = 0; i < listCoins.size(); i++){
-                    if(listCoins.get(i).getCoinName().toLowerCase().contains(charSequence.toString().toLowerCase())){
-                        coinData.add(listCoins.get(i));
-                    }
-                }
-                results.count = coinData.size();
-                results.values = coinData;
-            }
-            else{
-                results.count = listCoins.size();
-                results.values = listCoins;
-            }
-            return results;
-        }
-        @SuppressWarnings("unchecked")
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            listCoins = (ArrayList<Coin>) filterResults.values;
-            notifyDataSetChanged();
-        }
+        return view;
     }
 
-    public Filter getFilter(){
-        if(cFilter == null){
-            cFilter = new coinFilter();
+    @Override
+    public Filter getFilter() {
+        if(filter == null)
+        {
+            filter = new CoinFilter(filterList,this);
         }
-        return cFilter;
+        return filter;
     }
-
 }
