@@ -17,12 +17,13 @@ import java.util.ArrayList;
  */
 
 public class CustomAdapter extends ArrayAdapter<Coin> implements Filterable {
-    private ArrayList<Coin> listCoins;
+    private ArrayList<Coin> listCoins, filterList;
     private Context contextm;
     private coinFilter cFilter;
 
     public CustomAdapter(ArrayList<Coin> coins, Context context){
         super(context, 0, coins);
+        this.filterList = coins;
         this.listCoins = coins;
         this.contextm = context;
     }
@@ -65,37 +66,46 @@ public class CustomAdapter extends ArrayAdapter<Coin> implements Filterable {
 
     }
     private class coinFilter extends Filter {
+        ArrayList<Coin> filterList;
+        CustomAdapter adapter;
+
+        public coinFilter(ArrayList<Coin> filterList, CustomAdapter adapter ){
+            this.filterList = filterList;
+            this.adapter = adapter;
+        }
 
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
             FilterResults results = new FilterResults();
-            ArrayList<Coin> coinData = new ArrayList<>();
             if(charSequence != null || charSequence.length() > 0){
-                for(int i = 0; i < listCoins.size(); i++){
-                    if(listCoins.get(i).getCoinName().toLowerCase().contains(charSequence.toString().toLowerCase())){
-                        coinData.add(listCoins.get(i));
+                ArrayList<Coin> coinData = new ArrayList<>();
+
+                for(int i = 0; i < filterList.size(); i++){
+                    if(filterList.get(i).getCoinName().toUpperCase().contains(charSequence.toString().toUpperCase())){
+                        coinData.add(filterList.get(i));
                     }
                 }
                 results.count = coinData.size();
                 results.values = coinData;
             }
             else{
-                results.count = listCoins.size();
-                results.values = listCoins;
+                results.count = filterList.size();
+                results.values = filterList;
             }
             return results;
         }
         @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            listCoins = (ArrayList<Coin>) filterResults.values;
-            notifyDataSetChanged();
+            adapter.listCoins = (ArrayList<Coin>) filterResults.values;
+            adapter.notifyDataSetChanged();
         }
     }
 
+    @Override
     public Filter getFilter(){
         if(cFilter == null){
-            cFilter = new coinFilter();
+            cFilter = new coinFilter(filterList, this);
         }
         return cFilter;
     }
