@@ -2,13 +2,16 @@ package com.example.ethan.cryptocurrencytracker;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -50,6 +53,11 @@ public class CustomAdapter extends ArrayAdapter<Coin> implements Filterable {
         TextView symbolText = listItem.findViewById(R.id.coinInitial);
         TextView priceText = listItem.findViewById(R.id.price);
         TextView changeText = listItem.findViewById(R.id.change);
+        ImageView imageView = listItem.findViewById(R.id.imageView);
+        String imageName = currentCoin.getSymbolName().toLowerCase();
+        Resources res = contextm.getResources();
+        int id = res.getIdentifier(imageName,"drawable", contextm.getPackageName());
+        imageView.setImageResource(id);
 
         nameText.setText(currentCoin.getCoinName());
         symbolText.setText("(" + currentCoin.getSymbolName() + ")");
@@ -74,6 +82,10 @@ public class CustomAdapter extends ArrayAdapter<Coin> implements Filterable {
         });
         return listItem;
 
+    }
+
+    public static int getImageID(Context context, String id){
+        return context.getResources().getIdentifier("drawable/"+ id,null, context.getPackageName());
     }
     private class coinFilter extends Filter {
         ArrayList<Coin> filterList;
