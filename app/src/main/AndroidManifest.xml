@@ -19,6 +19,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".listclick" />
+        <activity
+            android:name=".PortfolioClick"
+            android:label="@string/title_activity_portfolio_click"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

@@ -6,14 +6,24 @@
     android:layout_height="match_parent"
     tools:context="com.example.ethan.cryptocurrencytracker.MainMenu"
     android:orientation="vertical">
-
-    <SearchView
-        android:id="@+id/coinSearch"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Search.."
+        android:orientation="horizontal">
+        <SearchView
+        android:id="@+id/coinSearch"
+        android:layout_width="320sp"
+        android:layout_height="wrap_content"
+        android:text="Search.."
         android:textSize="25sp"/>
-
+        <TextView
+            android:layout_width="100sp"
+            android:layout_height="fill_parent"
+            android:text="Portfolio"
+            android:gravity="center"
+            android:onClick="portfolioClick"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

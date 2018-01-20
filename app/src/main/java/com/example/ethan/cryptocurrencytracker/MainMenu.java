@@ -122,6 +122,10 @@ public class MainMenu extends Activity {
     }
 
 
+    public void portfolioClick(View view) {
+        Intent portfolioIntent = new Intent(MainMenu.this, PortfolioClick.class);
+        startActivity(portfolioIntent);
+    }
 }
 
 
